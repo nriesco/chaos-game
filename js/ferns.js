@@ -2,6 +2,7 @@
   var VIZ = {};
   var width = 3;
   var height = 3;
+  var factor = 5;
   var basePoint = {
     horizontalCoordinate: 0,
     verticalCoordinate: 0
@@ -60,17 +61,17 @@
     basePoint = tempPoint;
     renderPoint({
       color: tempPoint.c,
-      horizontalCoordinate: basePoint.horizontalCoordinate + (width / 5),
-      verticalCoordinate: basePoint.verticalCoordinate + (height / 10)
+      horizontalCoordinate: basePoint.horizontalCoordinate + (width / factor),
+      verticalCoordinate: basePoint.verticalCoordinate + (height / (factor * 2))
     }, colors);
   };
 
   VIZ.onResize = function() {
-    var aspect = height / width;
+    var aspect = (height / width);
     var chart = $("#thesvg");
     var targetWidth = chart.parent().width();
     chart.attr("width", targetWidth);
-    chart.attr("height", targetWidth / aspect);
+    chart.attr("height", (targetWidth / aspect));
   };
 
   window.VIZ = VIZ;
