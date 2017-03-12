@@ -1,8 +1,10 @@
 (function() {
+  // config variables
+  const width = 3;
+  const height = 3;
+  const factor = 5;
+
   var VIZ = {};
-  var width = 3;
-  var height = 3;
-  var factor = 5;
   var basePoint = {
     horizontalCoordinate: 0,
     verticalCoordinate: 0
@@ -19,26 +21,26 @@
   VIZ.times = 10000;
   VIZ.count = 0;
 
-  function getCoords(x, y) {
+  function getCoords(horizontalCoordinate, verticalCoordinate) {
     var p = random(1, 1000);
     return p <= 701 ? {
-        c: 0,
-        horizontalCoordinate: 0.81 * x + 0.07 * y + 0.12,
-        verticalCoordinate: -0.04 * x + 0.84 * y + 0.195
+        color: 0,
+        horizontalCoordinate: 0.81 * horizontalCoordinate + 0.07 * verticalCoordinate + 0.12,
+        verticalCoordinate: -0.04 * horizontalCoordinate + 0.84 * verticalCoordinate + 0.195
       } :
       p <= 851 ? {
-        c: 1,
-        horizontalCoordinate: 0.18 * x - 0.25 * y + 0.12,
-        verticalCoordinate: 0.27 * x + 0.23 * y + 0.02
+        color: 1,
+        horizontalCoordinate: 0.18 * horizontalCoordinate - 0.25 * verticalCoordinate + 0.12,
+        verticalCoordinate: 0.27 * horizontalCoordinate + 0.23 * verticalCoordinate + 0.02
       } :
       p <= 980 ? {
-        c: 2,
-        horizontalCoordinate: 0.19 * x + 0.275 * y + 0.16,
-        verticalCoordinate: 0.238 * x - 0.14 * y + 0.12
+        color: 2,
+        horizontalCoordinate: 0.19 * horizontalCoordinate + 0.275 * verticalCoordinate + 0.16,
+        verticalCoordinate: 0.238 * horizontalCoordinate - 0.14 * verticalCoordinate + 0.12
       } : {
-        c: 3,
-        horizontalCoordinate: 0.0235 * x + 0.087 * y + 0.11,
-        verticalCoordinate: 0.045 * x + 0.1666 * y
+        color: 3,
+        horizontalCoordinate: 0.0235 * horizontalCoordinate + 0.087 * verticalCoordinate + 0.11,
+        verticalCoordinate: 0.045 * horizontalCoordinate + 0.1666 * verticalCoordinate
       };
   }
 
@@ -60,9 +62,9 @@
     var tempPoint = getCoords(basePoint.horizontalCoordinate, basePoint.verticalCoordinate);
     basePoint = tempPoint;
     renderPoint({
-      color: tempPoint.c,
+      color: tempPoint.color,
       horizontalCoordinate: basePoint.horizontalCoordinate + (width / factor),
-      verticalCoordinate: basePoint.verticalCoordinate + (height / (factor * 2))
+      verticalCoordinate: basePoint.verticalCoordinate
     }, colors);
   };
 
