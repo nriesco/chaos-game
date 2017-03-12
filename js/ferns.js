@@ -1,8 +1,11 @@
 (function() {
   var VIZ = {};
-  var width = 3,
-    height = 3;
-  var basePoint = { x: 0, y: 0 };
+  var width = 3;
+  var height = 3;
+  var basePoint = {
+    horizontalCoordinate: 0,
+    verticalCoordinate: 0
+  };
   var colors = ['#006600', '#663333', '#CC0033', '#330099'];
   var svg = d3.select("#svg-container")
     .append("svg")
@@ -17,9 +20,25 @@
 
   function getCoords(x, y) {
     var p = random(1, 1000);
-    return p <= 701 ? { c: 0, x: 0.81 * x + 0.07 * y + 0.12, y: -0.04 * x + 0.84 * y + 0.195 } :
-      p <= 851 ? { c: 1, x: 0.18 * x - 0.25 * y + 0.12, y: 0.27 * x + 0.23 * y + 0.02 } :
-      p <= 980 ? { c: 2, x: 0.19 * x + 0.275 * y + 0.16, y: 0.238 * x - 0.14 * y + 0.12 } : { c: 3, x: 0.0235 * x + 0.087 * y + 0.11, y: 0.045 * x + 0.1666 * y };
+    return p <= 701 ? {
+        c: 0,
+        horizontalCoordinate: 0.81 * x + 0.07 * y + 0.12,
+        verticalCoordinate: -0.04 * x + 0.84 * y + 0.195
+      } :
+      p <= 851 ? {
+        c: 1,
+        horizontalCoordinate: 0.18 * x - 0.25 * y + 0.12,
+        verticalCoordinate: 0.27 * x + 0.23 * y + 0.02
+      } :
+      p <= 980 ? {
+        c: 2,
+        horizontalCoordinate: 0.19 * x + 0.275 * y + 0.16,
+        verticalCoordinate: 0.238 * x - 0.14 * y + 0.12
+      } : {
+        c: 3,
+        horizontalCoordinate: 0.0235 * x + 0.087 * y + 0.11,
+        verticalCoordinate: 0.045 * x + 0.1666 * y
+      };
   }
 
   function random(min, max) {
@@ -31,32 +50,24 @@
       .attr("class", "fractalPoint")
       .style("fill", flag ? colors[0] : colors[data.color])
       .style("opacity", 0.6)
-      .attr("cx", data.x)
-      .attr("cy", data.y)
+      .attr("cx", data.horizontalCoordinate)
+      .attr("cy", data.verticalCoordinate)
       .attr("r", 0.002);
   }
 
   VIZ.addPoint = function(colors) {
-    var xy = getCoords(basePoint.x, basePoint.y);
-    basePoint = xy;
-    if (colors) {
-      renderPoint({
-        color: xy.c,
-        x: basePoint.x + (width / 5),
-        y: basePoint.y + (height / 10)
-      }, 1);
-    } else {
-      renderPoint({
-        color: xy.c,
-        x: basePoint.x + (width / 5),
-        y: basePoint.y + (height / 10)
-      }, 0);
-    }
+    var tempPoint = getCoords(basePoint.horizontalCoordinate, basePoint.verticalCoordinate);
+    basePoint = tempPoint;
+    renderPoint({
+      color: tempPoint.c,
+      horizontalCoordinate: basePoint.horizontalCoordinate + (width / 5),
+      verticalCoordinate: basePoint.verticalCoordinate + (height / 10)
+    }, colors);
   };
 
   VIZ.onResize = function() {
-    var aspect = height / width,
-      chart = $("#thesvg");
+    var aspect = height / width;
+    var chart = $("#thesvg");
     var targetWidth = chart.parent().width();
     chart.attr("width", targetWidth);
     chart.attr("height", targetWidth / aspect);
